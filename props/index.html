@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>axios 工具使用 | 你好世界！~</title>
+    <meta name="description" content="Just playing around">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.9dbbfac1.css" as="style"><link rel="preload" href="/assets/js/app.d699d2a5.js" as="script"><link rel="preload" href="/assets/js/2.74353cc0.js" as="script"><link rel="preload" href="/assets/js/9.acb29cf7.js" as="script"><link rel="prefetch" href="/assets/js/10.5be7d8f0.js"><link rel="prefetch" href="/assets/js/11.92a8e02c.js"><link rel="prefetch" href="/assets/js/3.513b36f5.js"><link rel="prefetch" href="/assets/js/4.ec110e07.js"><link rel="prefetch" href="/assets/js/5.af3f254a.js"><link rel="prefetch" href="/assets/js/6.8239db90.js"><link rel="prefetch" href="/assets/js/7.1a65504a.js"><link rel="prefetch" href="/assets/js/8.a4d01f3c.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.9dbbfac1.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">你好世界！~</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/blog_build/" class="nav-link">文章阅读</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">js</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/js/" class="nav-link">JS基础</a></li><li class="dropdown-item"><!----> <a href="/jsg/" class="nav-link">js高级</a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/blog_build/" class="nav-link">文章阅读</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">js</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/js/" class="nav-link">JS基础</a></li><li class="dropdown-item"><!----> <a href="/jsg/" class="nav-link">js高级</a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>vue</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/" class="sidebar-link">Home</a></li><li><a href="/blog_build/" class="sidebar-link">关于博客搭建</a></li><li><a href="/props/" class="active sidebar-link">axios 工具使用</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/props/#axios-封装工具" class="sidebar-link">axios 封装工具</a></li></ul></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="axios-工具使用"><a href="#axios-工具使用" aria-hidden="true" class="header-anchor">#</a> axios 工具使用</h1> <h2 id="axios-封装工具"><a href="#axios-封装工具" aria-hidden="true" class="header-anchor">#</a> axios 封装工具</h2> <p>首先安装 axios</p> <div class="language- extra-class"><pre class="language-text"><code>npm i axios
+</code></pre></div><p>封装 axios 工具实现代码</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// lib/axios.js</span>
+<span class="token keyword">import</span> axios <span class="token keyword">from</span> <span class="token string">'axios'</span>
+<span class="token keyword">import</span> store <span class="token keyword">from</span> <span class="token string">'../store'</span>
+
+<span class="token keyword">class</span> <span class="token class-name">AjaxRequest</span> <span class="token punctuation">{</span>
+  <span class="token comment">// eslint-disable-next-line no-useless-constructor</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 定义一些公共配置</span>
+    <span class="token comment">// ajax 请求的地址</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>baseURL <span class="token operator">=</span>
+      process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">NODE_ENV</span> <span class="token operator">===</span> <span class="token string">'development'</span> <span class="token operator">?</span> <span class="token string">'http://localhost:3000'</span> <span class="token punctuation">:</span> <span class="token string">'/'</span>
+    <span class="token comment">// ajax 请求超时时间</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>timeout <span class="token operator">=</span> <span class="token number">2000</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">merge</span><span class="token punctuation">(</span><span class="token parameter">options</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 合并公共参数和用户传过来的参数</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span> baseURL<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>baseURL<span class="token punctuation">,</span> timeout<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>timeout<span class="token punctuation">,</span> <span class="token operator">...</span>options <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// eslint-disable-next-line class-methods-use-this</span>
+  <span class="token function">setInterceptors</span><span class="token punctuation">(</span><span class="token parameter">instance</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 设置响应拦截器</span>
+    instance<span class="token punctuation">.</span>interceptors<span class="token punctuation">.</span>response<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>
+      <span class="token parameter">res</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 让loading 隐藏</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'请求完成之后'</span><span class="token punctuation">)</span>
+        store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token string">'hideloading'</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> res<span class="token punctuation">.</span>data
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token parameter">err</span> <span class="token operator">=&gt;</span> Promise<span class="token punctuation">.</span><span class="token function">reject</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+    <span class="token comment">// 设置请求拦截器</span>
+    instance<span class="token punctuation">.</span>interceptors<span class="token punctuation">.</span>request<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>
+      <span class="token parameter">config</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 让loading显示</span>
+        store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token string">'showloading'</span><span class="token punctuation">)</span>
+        <span class="token comment">// eslint-disable-next-line no-param-reassign</span>
+        config<span class="token punctuation">.</span>headers<span class="token punctuation">.</span>authorization <span class="token operator">=</span> <span class="token string">'token'</span>
+        <span class="token keyword">return</span> config
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token parameter">err</span> <span class="token operator">=&gt;</span> Promise<span class="token punctuation">.</span><span class="token function">reject</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// eslint-disable-next-line class-methods-use-this</span>
+  <span class="token function">request</span><span class="token punctuation">(</span><span class="token parameter">options</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 实现axios的实例调用</span>
+    <span class="token keyword">const</span> instance <span class="token operator">=</span> axios<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment">// setInterceptors 设置拦截器的方法</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setInterceptors</span><span class="token punctuation">(</span>instance<span class="token punctuation">)</span>
+    <span class="token comment">// opt 就是合并后的参数</span>
+    <span class="token keyword">const</span> opt <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">merge</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token function">instance</span><span class="token punctuation">(</span>opt<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">new</span> <span class="token class-name">AjaxRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment">// AjaxRequest.request({</span>
+<span class="token comment">//   url:'/list',</span>
+<span class="token comment">//   data:{</span>
+<span class="token comment">//     a:1</span>
+<span class="token comment">//   }</span>
+<span class="token comment">// })</span>
+</code></pre></div><p>axios 工具使用</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">//  src/api/index</span>
+<span class="token comment">// 引入方法</span>
+<span class="token keyword">import</span> myAjax <span class="token keyword">from</span> <span class="token string">'../lib/axios'</span>
+<span class="token comment">// 配置并使用</span>
+<span class="token keyword">const</span> <span class="token function-variable function">getList</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+  myAjax<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    url<span class="token punctuation">:</span> <span class="token string">'/list'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token comment">// 导出方法</span>
+<span class="token keyword">export</span> <span class="token punctuation">{</span> getList <span class="token punctuation">}</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/blog_build/" class="prev">
+          关于博客搭建
+        </a></span> <!----></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.d699d2a5.js" defer></script><script src="/assets/js/2.74353cc0.js" defer></script><script src="/assets/js/9.acb29cf7.js" defer></script>
+  </body>
+</html>
